@@ -1,0 +1,25 @@
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=andrew
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=tinyurl_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    environment:
+      - POSTGRES_USER=andrew
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=tinyurl_db
+      - POSTGRES_HOST=db
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
