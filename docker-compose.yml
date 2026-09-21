@@ -39,6 +39,7 @@ services:
 
   app1:
     build: .
+    stop_grace_period: 35s
     environment:
       - POSTGRES_USER=andrew
       - POSTGRES_PASSWORD=123
@@ -55,6 +56,7 @@ services:
 
   app2:
     build: .
+    stop_grace_period: 35s
     environment:
       - POSTGRES_USER=andrew
       - POSTGRES_PASSWORD=123
@@ -63,6 +65,8 @@ services:
       - HOST=0.0.0.0
       - PORT=8000
       - REDIS_URL=redis://cache:6379/0
+    ports:
+      - "8002:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -71,6 +75,7 @@ services:
 
   app3:
     build: .
+    stop_grace_period: 35s
     environment:
       - POSTGRES_USER=andrew
       - POSTGRES_PASSWORD=123
