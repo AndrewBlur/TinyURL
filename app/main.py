@@ -42,3 +42,8 @@ async def redirect_url(short_code:str,db:AsyncSession = Depends(get_db)):
         await cache_url(short_code,original_url)
 
     return RedirectResponse(url=original_url)
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
