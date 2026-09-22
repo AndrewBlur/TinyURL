@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: app-deployment
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: tinyurl
+
+  template:
+    metadata:
+      name: tinyurl
+      labels:
+        app: tinyurl
+
+    spec:
+      containers:
+        - name: tinyurl
+          image: tinyurl_app:v1
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: POSTGRES_USER
+              value: "andrew"
+            
+            - name: POSTGRES_PASSWORD
+              value: "123"
+
+            - name: POSTGRES_DB
+              value: "tinyurl_db"
+
+            - name: POSTGRES_HOST
+              value: "postgres"
+
+            - name: HOST
+              value: "0.0.0.0"
+
+            - name: PORT 
+              value: "8000"
+
+            - name: REDIS_URL
+              value: redis://redis:6379/0

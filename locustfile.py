@@ -14,16 +14,16 @@ class TinyUrlUser(HttpUser):
     # A short wait makes this closer to people using a site than an endless loop.
     wait_time = between(0.5, 1.5)
 
-    @task(1)
+    @task(4)
     def redirect_an_existing_link(self):
         # The first link created by the current app uses the code "1".
         # Change this if your database does not contain that code.
         self.client.get("/3", name="GET /{short_code}", allow_redirects=False)
 
-    # @task(1)
-    # def create_a_link(self):
-    #     self.client.post(
-    #         "/shorten",
-    #         json={"url": "https://example.com/load-test"},
-    #         name="POST /shorten",
-    #     )
+    @task(1)
+    def create_a_link(self):
+        self.client.post(
+            "/shorten",
+            json={"url": "https://example.com/load-test"},
+            name="POST /shorten",
+        )
