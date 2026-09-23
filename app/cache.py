@@ -15,6 +15,13 @@ CACHE_TTL_SECONDS = 3600
 def cache_key(short_code:str)->str:
     return f"short-url:{short_code}"
 
+async def check_redis_connection():
+    try:
+        await redis_client.ping()
+        return True
+    except RedisError:
+        return False
+
 async def get_cached_url(short_code:str)->str|None:
     try:
         return await redis_client.get(cache_key(short_code))

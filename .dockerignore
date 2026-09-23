@@ -2,3 +2,4 @@
 locustfile.py
 requirements-dev.txt
 load_test_report/
+k8n/

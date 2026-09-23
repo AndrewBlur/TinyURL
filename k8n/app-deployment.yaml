@@ -20,28 +20,33 @@ spec:
     spec:
       containers:
         - name: tinyurl
-          image: tinyurl_app:v1
+          image: tinyurl_app:v2
           ports:
             - containerPort: 8000
 
-          env:
-            - name: POSTGRES_USER
-              value: "andrew"
-            
-            - name: POSTGRES_PASSWORD
-              value: "123"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
 
-            - name: POSTGRES_DB
-              value: "tinyurl_db"
+          envFrom:
+            - configMapRef:
+                name: tinyurl-config
 
-            - name: POSTGRES_HOST
-              value: "postgres"
+            - secretRef:
+                name: tinyurl-secret
 
-            - name: HOST
-              value: "0.0.0.0"
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
 
-            - name: PORT 
-              value: "8000"
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
 
-            - name: REDIS_URL
-              value: redis://redis:6379/0

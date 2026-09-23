@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: tinyurl-config
+
+data:
+  POSTGRES_USER: "andrew"
+  POSTGRES_DB: "tinyurl_db"
+  POSTGRES_HOST: "postgres"
+  REDIS_URL: "redis://redis:6379/0"

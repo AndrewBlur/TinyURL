@@ -3,6 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException
+from sqlalchemy import text
 
 def base62_encode(num:int):
     chars = "0123456789abcdefghijklmnopqrstuvwzxyABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -17,6 +18,12 @@ def base62_encode(num:int):
     return result
         
 
+async def check_db_connection(db: AsyncSession) -> bool:
+    try:
+        await db.execute(text("SELECT 1"))
+        return True
+    except Exception:
+        return False
 
 async def insert_url(db:AsyncSession,original_url:str):
     try:
